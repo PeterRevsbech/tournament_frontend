@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const AddTask = ({ onAdd }) => {
+const AddTournament = ({ onAdd }) => {
     const [text, setText] = useState('')
     const [day, setDay] = useState('')
     const [reminder, setReminder] = useState(false)
@@ -9,7 +9,7 @@ const AddTask = ({ onAdd }) => {
         e.preventDefault()
 
         if (!text) {
-            alert('Please add a task')
+            alert('Please add a tournament')
             return
         }
 
@@ -23,8 +23,8 @@ const AddTask = ({ onAdd }) => {
     return (
         <form className='add-form' onSubmit={onSubmit} >
             <div className='form-control'>
-                <label>Task</label>
-                <input type='text' placeholder='Add Task'
+                <label>Tournament</label>
+                <input type='text' placeholder='Add Tournament'
                     value={text} onChange={(e) => setText(e.target.value)}
                 />
                 
@@ -43,7 +43,7 @@ const AddTask = ({ onAdd }) => {
                 />
             </div>
 
-            <input type='submit' value='Save Task' className='btn btn-block' />
+            <input type='submit' value='Save Tournament' className='btn btn-block' />
         </form>
         
         
@@ -52,4 +52,4 @@ const AddTask = ({ onAdd }) => {
 
 }
 
-export default AddTask
+export default AddTournament

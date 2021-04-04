@@ -3,7 +3,6 @@ import Button from './Button'
 
 const Header = ({ title , onAdd, showAddButton}) => {
     
-
     return (
         <header className='header'>
             <h1> {title} </h1>
@@ -17,7 +16,7 @@ const Header = ({ title , onAdd, showAddButton}) => {
 }
 
 Header.defaultProps = {
-    title: 'Task Tracker',
+    title: 'Tournaments',
 }
 
 export default Header

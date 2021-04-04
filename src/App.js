@@ -1,16 +1,16 @@
 import './App.css';
 import { useState } from 'react'
-import Tasks from './components/Tasks'
+import Tournaments from './components/Tournaments'
 import Header from './components/Header'
-import AddTask from './components/AddTask'
+import AddTournament from './components/AddTournament'
 
 
 
 function App() {
 
-    const [showAddTask,setShowAddTask] = useState(false)
+    const [showAddTournament,setShowAddTournament] = useState(false)
 
-    const [tasks, setTasks] = useState([
+    const [tournaments, setTournaments] = useState([
         {
             id: 1,
             text: 'Doctors Appointment',
@@ -31,37 +31,37 @@ function App() {
         }
     ])
 
-    //Add Task
-    const addTask = (task) => {
+    //Add Tournament
+    const addTournament = (tournament) => {
         const id = Math.floor(Math.random() * 10000) + 1
-        const newTask = { id, ...task }
-        setTasks([...tasks, newTask])
+        const newTournament = { id, ...tournament }
+        setTournaments([...tournaments, newTournament])
     }
 
 
     // Delete Task
-    const deleteTask = (id) => {
-        setTasks(tasks.filter( (task) => task.id !== id))
+    const deleteTournament = (id) => {
+        setTournaments(tournaments.filter((tournament) => tournament.id !== id))
     }
 
     //Toggle Reminder
     const toggleReminder = (id) => {
-       
-        setTasks(
-            tasks.map((task) =>
-            task.id === id ? { ...task, reminder: !task.reminder } : task
+
+        setTournaments(
+            tournaments.map((tournament) =>
+                tournament.id === id ? { ...tournament, reminder: !tournament.reminder } : tournament
         ))
     }
 
   return (
       <div className="container">
-          <Header title='Task tracker' onAdd={() =>
-              setShowAddTask(!showAddTask)}
-              showAddButton={!showAddTask}
+          <Header onAdd={() =>
+              setShowAddTournament(!showAddTournament)}
+              showAddButton={!showAddTournament}
           />
-          {showAddTask && < AddTask onAdd={addTask} />}        
-          {tasks.length > 0 ?
-              <Tasks tasks={tasks} onToggle={toggleReminder} onDelete={deleteTask} />
+          {showAddTournament && < AddTournament onAdd={addTournament} />}
+          {tournaments.length > 0 ?
+              <Tournaments tournaments={tournaments} onToggle={toggleReminder} onDelete={deleteTournament} />
               : 'No tasks to show'
           }
     </div>
