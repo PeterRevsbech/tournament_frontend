@@ -1,10 +1,10 @@
 import './App.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Tournaments from './components/Tournaments'
 import Header from './components/Header'
 import AddTournament from './components/AddTournament'
 
-
+const api_address = 'https://localhost:5001/api/'
 
 function App() {
 
@@ -30,6 +30,18 @@ function App() {
             reminder: true,
         }
     ])
+
+    useEffect(() => {
+        const fetchTournaments = async () => {
+            const res = await fetch(api_address + 'Tournament')
+            const data = await res.json()
+            console.log(data)
+
+        }
+        fetchTournaments()
+        }, []
+    )
+
 
     //Add Tournament
     const addTournament = (tournament) => {
