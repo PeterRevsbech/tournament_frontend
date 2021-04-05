@@ -1,16 +1,17 @@
+import Header from './Header'
+import Draw from './Draw'
 
-const Draws = ({ tournaments, onDelete, onView }) => {
+
+const Draws = ({ draws, onDelete, onView }) => {
 
     return (
-        /*
-        <>
-            {tournaments.map((tournament) => (
-                <Tournament key={tournament.id} tournament={tournament} onView={onView} onDelete={onDelete} />
-            ))}
-        </>
-        */
 
-        <div/>
+        <div>
+            <Header title='Draws' />
+            {draws.map((draw) => (
+                <Draw key={draw.id} draw={draw} onView={onView} onDelete={onDelete} />
+            ))}
+        </div>
     )
 }
 

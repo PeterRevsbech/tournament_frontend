@@ -20,7 +20,10 @@ function App() {
                 api_address={api_address}
             />
 
-            {selectedTournamentId !== -1 && <TournamentDetails tournament={tournaments.find((t) => t.id === selectedTournamentId)} />}
+            {selectedTournamentId !== -1 && <TournamentDetails
+                tournament={tournaments.find((t) => t.id === selectedTournamentId)}
+                api_address={api_address}
+            />}
         </div>
 
 

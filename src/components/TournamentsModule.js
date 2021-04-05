@@ -55,7 +55,7 @@ const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentI
     }
 
 
-    //View Tournament
+    //Select tournament
     const selectTournament = (id) => {
         setTournaments(
             tournaments.map((tournament) =>
