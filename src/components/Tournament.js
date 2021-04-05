@@ -3,7 +3,7 @@ import Button from './Button'
 
 const Tournament = ({ tournament, onDelete, onView}) => {
     return (
-        <div className={'tournament'}>
+        <div className={`tournament ${tournament.selected ? 'selected' : ''}`}>
             <h3>{tournament.name}
                 <FaTimes style={{ color: 'red', cursor: 'pointer' }} onClick={() => onDelete(tournament.id)} />
             </h3>

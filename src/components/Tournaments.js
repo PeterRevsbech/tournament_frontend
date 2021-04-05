@@ -1,10 +1,7 @@
 import Tournament from './Tournament'
 
-
-
 const Tournaments = ({ tournaments, onDelete, onView}) => {
 
-    
     return (
         <>
             {tournaments.map((tournament) => (
@@ -12,8 +9,6 @@ const Tournaments = ({ tournaments, onDelete, onView}) => {
             ))}
         </>
         )
-
-
 }
 
 export default Tournaments

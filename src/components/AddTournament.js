@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 
 const AddTournament = ({ onAdd }) => {
     const [name, setName] = useState('')
@@ -8,8 +9,19 @@ const AddTournament = ({ onAdd }) => {
     const submitToAPI = (e) => {
         e.preventDefault();
 
-        const { post } = this.state;
+        const tournament = {
+            "name": name,
+            "startDate": day
+        };
 
+        axios({
+            method: 'post',
+            url: `${api_address}Tournament`,
+            data: tournament
+        })
+            .then(res => {
+                onAdd(res.data)
+            })
 
     }   
 
@@ -28,8 +40,7 @@ const AddTournament = ({ onAdd }) => {
         //Write to database
         submitToAPI(e)  
 
-        //Set UI
-        onAdd({ name, day})
+        //Clear fields
         setName('')
         setDay('')
     }
