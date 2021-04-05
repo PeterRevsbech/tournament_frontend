@@ -1,48 +1,55 @@
-import {useState} from 'react'
+import { useState } from 'react'
 
 const AddTournament = ({ onAdd }) => {
-    const [text, setText] = useState('')
+    const [name, setName] = useState('')
     const [day, setDay] = useState('')
-    const [reminder, setReminder] = useState(false)
+    const api_address = 'https://localhost:5001/api/'
+
+    const submitToAPI = (e) => {
+        e.preventDefault();
+
+        const { post } = this.state;
+
+
+    }   
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        if (!text) {
-            alert('Please add a tournament')
+        if (!name) {
+            alert('Please add a name for the tournament')
+            return
+        } else if (!day) {
+            alert('Please select a time and day')
             return
         }
 
-        onAdd({ text, day, reminder })
 
-        setText('')
+        //Write to database
+        submitToAPI(e)  
+
+        //Set UI
+        onAdd({ name, day})
+        setName('')
         setDay('')
-        setReminder(false)
     }
 
     return (
         <form className='add-form' onSubmit={onSubmit} >
             <div className='form-control'>
-                <label>Tournament</label>
-                <input type='text' placeholder='Add Tournament'
-                    value={text} onChange={(e) => setText(e.target.value)}
+                <label>Tournament name</label>
+                <input type='text' placeholder='Name of tournament'
+                    value={name} onChange={(e) => setName(e.target.value)}
                 />
                 
             </div>
             <div className='form-control from-control-check'>
-                <label>Day and time</label>
-                <input type='text' placeholder='Add Day and time'
+                <label>Start day and time</label>
+                <input type='datetime-local' placeholder='Add Day and time'
                     value={day} onChange={(e) => setDay(e.target.value)}
                 />
             </div>
-            <div className='form-control'>
-                <label>Set Reminder</label>
-                <input type='checkbox'
-                    checked={reminder}
-                    value={reminder} onChange={(e) => setReminder(e.currentTarget.checked)}
-                />
-            </div>
-
+      
             <input type='submit' value='Save Tournament' className='btn btn-block' />
         </form>
         

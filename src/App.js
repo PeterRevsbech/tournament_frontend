@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Tournaments from './components/Tournaments'
 import Header from './components/Header'
 import AddTournament from './components/AddTournament'
+import axios from 'axios'
 
 const api_address = 'https://localhost:5001/api/'
 
@@ -11,58 +12,70 @@ function App() {
     const [showAddTournament,setShowAddTournament] = useState(false)
 
     const [tournaments, setTournaments] = useState([
-        {
-            id: 1,
-            text: 'Doctors Appointment',
-            day: 'Feb 5th at 2:30 pm',
-            reminder: true,
-        },
-        {
-            id: 2,
-            text: 'Groceries',
-            day: 'Feb 6th at 2:30 pm',
-            reminder: true,
-        },
-        {
-            id: 3,
-            text: 'Workout',
-            day: 'Feb 7th at 2:30 pm',
-            reminder: true,
-        }
+        
     ])
 
     useEffect(() => {
-        const fetchTournaments = async () => {
-            const res = await fetch(api_address + 'Tournament')
-            const data = await res.json()
-            console.log(data)
-
-        }
         fetchTournaments()
-        }, []
-    )
+        }, [])
+
+    //Fetch tournaments
+    const fetchTournaments = async () => {
+        axios({ method: 'get', url: `${api_address + 'Tournament'}` })
+
+            .then(res => {
+                const tournaments = res.data;
+                console.log('Fetched Tournaments:\n'+tournaments)
+                setTournaments(tournaments);
+            })
+
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            });
+    }
 
 
     //Add Tournament
     const addTournament = (tournament) => {
-        const id = Math.floor(Math.random() * 10000) + 1
-        const newTournament = { id, ...tournament }
-        setTournaments([...tournaments, newTournament])
+        setTournaments([...tournaments, tournament])
     }
 
 
-    // Delete Task
-    const deleteTournament = (id) => {
+    // Delete Tournament
+    /*
+    const deleteTournament = async (id) => {
+        await fetch(api_address + 'Tournament/' + id, {method: 'DELETE'})
         setTournaments(tournaments.filter((tournament) => tournament.id !== id))
     }
+    */
 
-    //Toggle Reminder
-    const toggleReminder = (id) => {
+    const deleteTournament = async (id) => {
+        axios({ method: 'DELETE', url: `${api_address + 'Tournament/' + id}` })
 
+            .then(res => {
+                console.log('Deleted the following\n'+res)
+                setTournaments(tournaments.filter((tournament) => tournament.id !== id))
+            })
+
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+                alert('Could not delete');
+            });
+        
+    }
+
+
+    //View Tournament
+    const viewTournament = (id) => {
+        /*
         setTournaments(
             tournaments.map((tournament) =>
                 tournament.id === id ? { ...tournament, reminder: !tournament.reminder } : tournament
         ))
+        */
+        console.log('Want to view tournament with id:' + id)
     }
 
   return (
@@ -73,8 +86,8 @@ function App() {
           />
           {showAddTournament && < AddTournament onAdd={addTournament} />}
           {tournaments.length > 0 ?
-              <Tournaments tournaments={tournaments} onToggle={toggleReminder} onDelete={deleteTournament} />
-              : 'No tasks to show'
+              <Tournaments tournaments={tournaments} onView={viewTournament} onDelete={deleteTournament} />
+              : 'No tournaments to show'
           }
     </div>
   );

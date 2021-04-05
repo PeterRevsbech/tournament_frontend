@@ -1,14 +1,14 @@
 import { FaTimes } from 'react-icons/fa'
+import Button from './Button'
 
-const Tournament = ({ tournament, onDelete, onToggle}) => {
+const Tournament = ({ tournament, onDelete, onView}) => {
     return (
-        <div className={`tournament ${tournament.reminder ? 'reminder' : ''}`} onClick={() => onToggle(tournament.id)}>
-            <h3>{tournament.text}
+        <div className={'tournament'}>
+            <h3>{tournament.name}
                 <FaTimes style={{ color: 'red', cursor: 'pointer' }} onClick={() => onDelete(tournament.id)} />
             </h3>
-            <p>{tournament.day}</p>
-
-
+            <p>{tournament.startDate}</p>
+            <Button text='View' onClick={() => onView(tournament.id) }/>
         </div>
         
         )

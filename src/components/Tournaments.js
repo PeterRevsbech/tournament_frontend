@@ -2,13 +2,13 @@ import Tournament from './Tournament'
 
 
 
-const Tournaments = ({ tournaments, onDelete, onToggle}) => {
+const Tournaments = ({ tournaments, onDelete, onView}) => {
 
     
     return (
         <>
             {tournaments.map((tournament) => (
-                <Tournament key={tournament.id} tournament={tournament} onToggle={onToggle} onDelete={onDelete} />
+                <Tournament key={tournament.id} tournament={tournament} onView={onView} onDelete={onDelete} />
             ))}
         </>
         )
