@@ -7,7 +7,7 @@ const Draw = ({ draw, onDelete, onView }) => {
             <h3>{draw.name}
                 <FaTimes style={{ color: 'red', cursor: 'pointer' }} onClick={() => onDelete(draw.id)} />
             </h3>
-            <p>{draw.drawTypeDTO}</p>
+            <p>{draw.drawTypeDTO === 0 ? 'Knock-Out': draw.drawTypeDTO === 1 ? 'Monrad' : 'Round Robin'}</p>
             <Button text='View' onClick={() => onView(draw.id)} />
         </div>
 
