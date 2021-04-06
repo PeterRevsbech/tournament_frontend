@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import axios from 'axios'
-import {api_address} from "../App";
 
 const AddTournament = ({ onAdd }) => {
     const [name, setName] = useState('')
     const [day, setDay] = useState('')
+    const api_address = 'https://localhost:5001/api/'
 
     const submitToAPI = (e) => {
         e.preventDefault();
@@ -23,7 +23,7 @@ const AddTournament = ({ onAdd }) => {
                 onAdd(res.data)
             })
 
-    }   
+    }
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -38,7 +38,7 @@ const AddTournament = ({ onAdd }) => {
 
 
         //Write to database
-        submitToAPI(e)  
+        submitToAPI(e)
 
         //Clear fields
         setName('')
@@ -50,22 +50,22 @@ const AddTournament = ({ onAdd }) => {
             <div className='form-control'>
                 <label>Tournament name</label>
                 <input type='text' placeholder='Name of tournament'
-                    value={name} onChange={(e) => setName(e.target.value)}
+                       value={name} onChange={(e) => setName(e.target.value)}
                 />
-                
+
             </div>
             <div className='form-control from-control-check'>
                 <label>Start day and time</label>
                 <input type='datetime-local' placeholder='Add Day and time'
-                    value={day} onChange={(e) => setDay(e.target.value)}
+                       value={day} onChange={(e) => setDay(e.target.value)}
                 />
             </div>
-      
+
             <input type='submit' value='Save Tournament' className='btn btn-block' />
         </form>
-        
-        
-        )
+
+
+    )
 
 
 }

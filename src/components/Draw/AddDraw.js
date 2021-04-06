@@ -1,35 +1,35 @@
 import { useState } from 'react'
 import axios from 'axios'
-import {api_address} from "../App";
+import {api_address} from "../../App";
 
-const AddTournament = ({ onAdd }) => {
+const AddDraw = ({ onAdd }) => {
     const [name, setName] = useState('')
     const [day, setDay] = useState('')
 
     const submitToAPI = (e) => {
         e.preventDefault();
 
-        const tournament = {
+        const draw = {
             "name": name,
-            "startDate": day
+            "drawTypeDTO":0,
         };
 
         axios({
             method: 'post',
-            url: `${api_address}Tournament`,
-            data: tournament
+            url: `${api_address}Draw`,
+            data: draw
         })
             .then(res => {
                 onAdd(res.data)
             })
 
-    }   
+    }
 
     const onSubmit = (e) => {
         e.preventDefault()
 
         if (!name) {
-            alert('Please add a name for the tournament')
+            alert('Please add a name for the draw')
             return
         } else if (!day) {
             alert('Please select a time and day')
@@ -38,7 +38,7 @@ const AddTournament = ({ onAdd }) => {
 
 
         //Write to database
-        submitToAPI(e)  
+        submitToAPI(e)
 
         //Clear fields
         setName('')
@@ -48,26 +48,26 @@ const AddTournament = ({ onAdd }) => {
     return (
         <form className='add-form' onSubmit={onSubmit} >
             <div className='form-control'>
-                <label>Tournament name</label>
-                <input type='text' placeholder='Name of tournament'
-                    value={name} onChange={(e) => setName(e.target.value)}
+                <label>Draw name</label>
+                <input type='text' placeholder='Name of draw'
+                       value={name} onChange={(e) => setName(e.target.value)}
                 />
-                
+
             </div>
             <div className='form-control from-control-check'>
                 <label>Start day and time</label>
                 <input type='datetime-local' placeholder='Add Day and time'
-                    value={day} onChange={(e) => setDay(e.target.value)}
+                       value={day} onChange={(e) => setDay(e.target.value)}
                 />
             </div>
-      
-            <input type='submit' value='Save Tournament' className='btn btn-block' />
+
+            <input type='submit' value='Save Draw' className='btn btn-block' />
         </form>
-        
-        
-        )
+
+
+    )
 
 
 }
 
-export default AddTournament
+export default AddDraw

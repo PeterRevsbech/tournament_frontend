@@ -8,10 +8,17 @@ export const api_address = 'https://localhost:5001/api/'
 
 function App() {
 
-
+    //Tournaments
     const [selectedTournamentId, setSelectedTournamentId] = useState(-1)
-    const [tournaments, setTournaments] = useState([
-    ])
+    const [tournaments, setTournaments] = useState([])
+
+    //Draws
+    const [selectedDrawId, setSelectedDrawId] = useState(-1)
+    const [draws, setDraws] = useState([])
+
+    //Players
+    const [selectedPlayerId, setSelectedPlayerId] = useState(-1)
+    const [players, setPlayers] = useState([])
 
     useEffect(() => {
         setTournaments([])
@@ -39,6 +46,12 @@ function App() {
 
             {selectedTournamentId !== -1 && <TournamentDetails
                 tournament={tournaments.find((t) => t.id === selectedTournamentId)}
+                draws={draws}
+                setDraws={setDraws}
+                setSelectedDrawId={setSelectedDrawId}
+                players={players}
+                setPlayers={setPlayers}
+                setSelectedPlayerId={setSelectedPlayerId}
             />}
         </div>
 

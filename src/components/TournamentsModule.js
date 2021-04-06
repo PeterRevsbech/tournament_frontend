@@ -15,9 +15,6 @@ const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentI
         setTournaments([...tournaments, tournament])
     }
 
-    console.log('API ADDRESS:',api_address)
-
-
     // Delete Tournament
     const deleteTournament = async (id) => {
 
@@ -44,7 +41,6 @@ const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentI
 
         setSelectedTournamentId(id)
         console.log('Want to view tournament with id:' + id)
-
     }
 
     return (
