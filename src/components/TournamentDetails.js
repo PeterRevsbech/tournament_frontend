@@ -3,8 +3,9 @@ import Draws from './Draws'
 import Players from './Players'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import {api_address} from '../App'
 
-const TournamentDetails = ({ selectedTournamentId, tournament, api_address }) => {
+const TournamentDetails = ({ tournament }) => {
     console.log(tournament)
 
     const [draws, setDraws] = useState([
@@ -13,6 +14,8 @@ const TournamentDetails = ({ selectedTournamentId, tournament, api_address }) =>
     
     useEffect(() => {
         setDraws([])
+        var tempDraws = []
+
         tournament.drawIds.forEach((id) => {
             axios({ method: 'get', url: `${api_address + 'Draw/' + id}` })
 
@@ -20,7 +23,8 @@ const TournamentDetails = ({ selectedTournamentId, tournament, api_address }) =>
                     const draw = res.data;
                     console.log('Fetched Draw:')
                     console.log(draw)
-                    setDraws([...draws, draw])
+                    tempDraws = [...tempDraws, draw]
+                    setDraws(tempDraws)
                     //return draw
                 })
 
@@ -30,14 +34,14 @@ const TournamentDetails = ({ selectedTournamentId, tournament, api_address }) =>
                     return
                 });
         });
-    }, [tournament.drawIds, api_address])
+    }, [tournament])
 
     return (
 
         <div className="container">
             <h2>{tournament.name}</h2>
 
-            <Draws draws={draws} />
+            <Draws draws={draws}/>
             <Players />
 
 

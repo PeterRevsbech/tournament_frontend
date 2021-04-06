@@ -1,37 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Tournaments from './Tournaments'
 import Header from './Header'
 import AddTournament from './AddTournament'
 import axios from 'axios'
+import {api_address} from '../App'
 
 
-const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentId, api_address }) => {
+const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentId }) => {
     const [showAddTournament, setShowAddTournament] = useState(false)
 
-
-    useEffect(() => {
-        setTournaments([])
-        axios({ method: 'get', url: `${api_address + 'Tournament'}` })
-
-            .then(res => {
-                const tournaments = res.data;
-                console.log('Fetched Tournaments:')
-                console.log(tournaments)
-                setTournaments(tournaments);
-            })
-
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            });
-    }, [api_address, setTournaments])
-
-  
     //Add Tournament
     const addTournament = (tournament) => {
         tournament.selected = false
         setTournaments([...tournaments, tournament])
     }
+
+    console.log('API ADDRESS:',api_address)
 
 
     // Delete Tournament
