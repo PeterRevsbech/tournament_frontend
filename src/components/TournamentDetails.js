@@ -10,29 +10,27 @@ const TournamentDetails = ({ selectedTournamentId, tournament, api_address }) =>
     const [draws, setDraws] = useState([
     ])
 
-    const fetchDraw = async (id) => {
-        axios({ method: 'get', url: `${api_address + 'Draw/' + id}` })
-
-            .then(res => {
-                const draw = res.data;
-                console.log('Fetched Draw:')
-                console.log(draw)
-                setDraws([...draws, draw])
-                //return draw
-            })
-
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-                return
-            });
-    }
-
+    
     useEffect(() => {
+        setDraws([])
         tournament.drawIds.forEach((id) => {
-            fetchDraw(id)
+            axios({ method: 'get', url: `${api_address + 'Draw/' + id}` })
+
+                .then(res => {
+                    const draw = res.data;
+                    console.log('Fetched Draw:')
+                    console.log(draw)
+                    setDraws([...draws, draw])
+                    //return draw
+                })
+
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                    return
+                });
         });
-    }, [])
+    }, [tournament.drawIds, api_address])
 
     return (
 

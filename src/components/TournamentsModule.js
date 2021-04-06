@@ -10,11 +10,7 @@ const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentI
 
 
     useEffect(() => {
-        fetchTournaments()
-    },[])
-
-    //Fetch tournaments
-    const fetchTournaments = async () => {
+        setTournaments([])
         axios({ method: 'get', url: `${api_address + 'Tournament'}` })
 
             .then(res => {
@@ -28,9 +24,9 @@ const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentI
                 // handle error
                 console.log(error);
             });
-    }
+    }, [api_address, setTournaments])
 
-
+  
     //Add Tournament
     const addTournament = (tournament) => {
         tournament.selected = false
