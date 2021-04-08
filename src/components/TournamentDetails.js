@@ -87,22 +87,23 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
     useEffect(() => {
         setDraws([])
         var tempDraws = []
+        var drawsRemaining = tournament.drawIds.length
 
         tournament.drawIds.forEach((id) => {
             axios({ method: 'get', url: `${api_address + 'Draw/' + id}` })
 
                 .then(res => {
                     const draw = res.data;
-                    //console.log('Fetched Draw:')
-                    //console.log(draw)
                     tempDraws = [...tempDraws, draw]
-                    setDraws(tempDraws)
+                    drawsRemaining--;
+                    if (drawsRemaining===0){
+                        setDraws(tempDraws)
+                    }
                 })
 
                 .catch(function (error) {
                     // handle error
                     console.log(error);
-                    return
                 });
         });
     }, [tournament,setDraws])
@@ -111,25 +112,50 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
     useEffect(() => {
         setPlayers([])
         var tempPlayers = []
+        var playersRemaining = tournament.playerIds.length
 
         tournament.playerIds.forEach((id) => {
             axios({ method: 'get', url: `${api_address + 'Player/' + id}` })
 
                 .then(res => {
                     const player = res.data;
-                    //console.log('Fetched Draw:')
-                    //console.log(draw)
                     tempPlayers = [...tempPlayers, player]
-                    setPlayers(tempPlayers)
+                    playersRemaining--
+                    if (playersRemaining===0){
+                        setPlayers(tempPlayers)
+                    }
                 })
 
                 .catch(function (error) {
                     // handle error
                     console.log(error);
-                    return
                 });
         });
     }, [tournament,setPlayers])
+
+
+
+    const playerNameTaken = (proposedName) => {
+        var namesAreEqual = false;
+        players.forEach((player) => {
+            if (player.name.trim().toLowerCase() === proposedName.trim().toLowerCase()) {
+                namesAreEqual = true;
+            }
+        })
+
+        return namesAreEqual
+    }
+
+    const drawNameTaken = (proposedName) => {
+        var namesAreEqual = false;
+        draws.forEach((draw) => {
+            if (draw.name.trim().toLowerCase() === proposedName.trim().toLowerCase()) {
+                namesAreEqual = true;
+            }
+        })
+
+        return namesAreEqual
+    }
 
 
     return (
@@ -142,7 +168,7 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
                         setShowAddDraw(!showAddDraw)}
                     showAddButton={!showAddDraw}
             />
-            {showAddDraw && < AddDraw onAdd={addDraw} />}
+            {showAddDraw && < AddDraw onAdd={addDraw} nameTaken={drawNameTaken} tournament={tournament} players={players}/>}
             <Draws draws={draws} onView={onSelectDraw} onDelete={onDeleteDraw}/>
 
             <Header title={'Players'}
@@ -150,7 +176,7 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
                         setShowAddPlayer(!showAddPlayer)}
                     showAddButton={!showAddPlayer}
             />
-            {showAddPlayer && < AddPlayer onAdd={addPlayer} />}
+            {showAddPlayer && < AddPlayer onAdd={addPlayer} nameTaken={playerNameTaken} tournament={tournament}/>}
             <Players players={players} onView={onSelectPlayer} onDelete={onDeletePlayer}/>
         </div>
         
