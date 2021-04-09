@@ -73,6 +73,10 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
         setType(type)
     }
 
+    const onSeedingChange = (playerId, seed) => {
+        console.log(playerId, ' changed seeding to ',seed)
+    }
+
     return (
         <>
             <form className='add-form' onSubmit={onSubmit} >
@@ -104,6 +108,7 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
                     onDelete={onDeletePlayer}
                     showViewButton={false}
                     isUsingSeedings={useSeedings}
+                    onSeedingChange={onSeedingChange}
                 />
 
                 <input type='submit' value='Save Draw' className='btn btn-block' />
