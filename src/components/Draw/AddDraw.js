@@ -17,19 +17,26 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
 
         e.preventDefault();
         console.log(type)
+
+        const playerIds = playersInDraw.map(
+            player=>player.id
+        )
+
         const draw = {
             "name": name,
             "drawTypeDTO":type,
-            "tournamentId": tournament.id
+            "tournamentId": tournament.id,
+            "playerIds":playerIds
         };
 
         axios({
             method: 'post',
-            url: `${api_address}Draw`,
+            url: `${api_address}Draw/Generate/`,
             data: draw
         })
             .then(res => {
                 onAdd(res.data)
+                console.log(res.data);
                 tournament.drawIds.push(res.data.id)
             })
     }

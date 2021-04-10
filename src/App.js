@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import TournamentDetails from './components/TournamentDetails'
 import TournamentsModule from './components/TournamentsModule';
 import axios from "axios";
+import MatchesModule from "./components/Match/MatchesModule";
 
 export const api_address = 'https://localhost:5001/api/'
 
@@ -19,6 +20,12 @@ function App() {
     //Players
     const [selectedPlayerId, setSelectedPlayerId] = useState(-1)
     const [players, setPlayers] = useState([])
+
+    //Matches
+    const [matches, setMatches] = useState([])
+
+    //MatchDependencies
+    const [matchDependencies, setMatchDependencies] = useState([])
 
     useEffect(() => {
         setTournaments([])
@@ -53,6 +60,14 @@ function App() {
                 setPlayers={setPlayers}
                 setSelectedPlayerId={setSelectedPlayerId}
             />}
+
+            <MatchesModule
+                matches={matches}
+                setMatches={setMatches}
+                matchDependencies={matchDependencies}
+                setMatchDependencies={setMatchDependencies}
+                selectedDraw={draws.find((draw => draw.id===selectedDrawId))}/>
+                selectedPlayer={players.find((player => player.id===selectedPlayerId))}/>
         </div>
 
 
