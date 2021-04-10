@@ -111,7 +111,7 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
     //Get players
     useEffect(() => {
         setPlayers([])
-        var tempPlayers = []
+        let tempPlayers = []
         var playersRemaining = tournament.playerIds.length
 
         tournament.playerIds.forEach((id) => {

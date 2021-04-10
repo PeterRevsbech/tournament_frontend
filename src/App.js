@@ -20,6 +20,7 @@ function App() {
     //Players
     const [selectedPlayerId, setSelectedPlayerId] = useState(-1)
     const [players, setPlayers] = useState([])
+    const [simplePlayerList, setSimplePlayerList] = useState([])
 
     //Matches
     const [matches, setMatches] = useState([])
@@ -44,6 +45,18 @@ function App() {
             });
     }, [setTournaments])
 
+    useEffect(() => {
+        let list =[]
+
+        console.log('players',players);
+        players.forEach((player) => {
+            list.push({name: player.name, identificator: player.id})
+        })
+        console.log('finished formatting simp playerlist',list);
+        setSimplePlayerList(list)
+    }, [players])
+
+
     return (
         <div>
             <TournamentsModule tournaments={tournaments}
@@ -66,11 +79,15 @@ function App() {
                 setMatches={setMatches}
                 matchDependencies={matchDependencies}
                 setMatchDependencies={setMatchDependencies}
-                selectedDraw={draws.find((draw => draw.id===selectedDrawId))}/>
-                selectedPlayer={players.find((player => player.id===selectedPlayerId))}/>
+                selectedDraw={draws.find((draw => draw.id===selectedDrawId))}
+                selectedPlayer={players.find((player => player.id===selectedPlayerId))}
+                playerNames={simplePlayerList}
+            />
         </div>
 
-
+/*
+playerNamesIds={simplifyPlayers()}
+ */
       
   );
 }

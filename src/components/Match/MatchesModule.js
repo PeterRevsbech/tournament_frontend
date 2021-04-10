@@ -9,16 +9,17 @@ const MatchesModule = ({ matches,
                            matchDependencies,
                            setMatchDependencies,
                            selectedDraw,
-                           selectedPlayer
+                           selectedPlayer,
+                           playerNames
 }) => {
 
     const [dependenciesAttached, setDependenciesAttached] = useState(false)
+    const [finishedFetching, setFinishedFetching] = useState(false)
 
-    const getMatchDependencies = () => {
+    useEffect(() => {
         setMatchDependencies([])
         let tmpMDs = [];
         let mdsRemaining = matches.length*2;
-
         const fetchDependency = (depId) => {
             console.log('About to fetch md with id' ,depId);
             axios({ method: 'get', url: `${api_address + 'MatchDependency/' + depId}` })
@@ -30,7 +31,7 @@ const MatchesModule = ({ matches,
                     if (mdsRemaining===0){
                         matchDependencies = tmpMDs
                         setMatchDependencies(matchDependencies)
-                        attachDependecies()
+                        setFinishedFetching(true)
                     }
                 })
                 .catch(function (error) {
@@ -53,26 +54,32 @@ const MatchesModule = ({ matches,
                 fetchDependency(match.p2DependencyId)
             }
         })
-    }
+    }, [matches])
+
+    useEffect(() => {
+        attachDependecies()
+    }, [finishedFetching])
+
 
     const attachDependecies = () => {
         const getDependency = (id) => {
-            matchDependencies.find(md =>
+            return matchDependencies.find(md =>
                 md.id===id
             )
         }
 
-        matches.map((match) =>
-            match.p1DependencyId === null || match.p1DependencyId===0 ? {
-            ...match, p1Depedency: getDependency(match.p1DependencyId) }
-                : match
-        )
+        const tmpMatches = Array.from(matches)
+        tmpMatches.forEach((match) => {
+            if (match.p1DependencyId !== undefined && match.p1DependencyId!==0){
+                match.p1Dependency =getDependency(match.p1DependencyId)
+            }
 
-        matches.map((match) =>
-            match.p2DependencyId === null || match.p2DependencyId===0 ? {
-                    ...match, p2Depedency: getDependency(match.p2DependencyId) }
-                : match
-        )
+            if (match.p2DependencyId !== undefined && match.p2DependencyId!==0){
+                match.p2Dependency =getDependency(match.p2DependencyId)
+            }
+        })
+
+        setMatches(tmpMatches)
         setDependenciesAttached(true)
     }
 
@@ -90,7 +97,7 @@ const MatchesModule = ({ matches,
                     setMatches(matches);
                     console.log('Fetched Matches:',matches)
                     setDependenciesAttached(false)
-                    getMatchDependencies()
+                    //getMatchDependencies(matches.length)
                 })
 
                 .catch(function (error) {
@@ -120,6 +127,7 @@ const MatchesModule = ({ matches,
             {matches.length > 0 ?
                 <Matches matches={matches}
                     dependenciesAttached={dependenciesAttached}
+                    playerNames={playerNames}
                 />
                 : 'No matches in selected draw/for selected player'
             }
