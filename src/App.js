@@ -20,7 +20,6 @@ function App() {
     //Players
     const [selectedPlayerId, setSelectedPlayerId] = useState(-1)
     const [players, setPlayers] = useState([])
-    const [simplePlayerList, setSimplePlayerList] = useState([])
 
     //Matches
     const [matches, setMatches] = useState([])

@@ -30,13 +30,20 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
 
     //Select draw
     const onSelectDraw = (id) => {
+        //Select draw
+        console.log('Want to view draw with id:' + id)
         setDraws(
             draws.map((draw) =>
                 draw.id === id ? { ...draw, selected: true } : { ...draw, selected: false }
             ))
-
         setSelectedDrawId(id)
-        console.log('Want to view draw with id:' + id)
+
+        //Unselect player
+        setSelectedPlayerId(undefined)
+        setPlayers(
+            players.map((player) =>
+                ({...player, selected: false})
+            ))
     }
 
     //Delete Draw
@@ -57,13 +64,21 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
 
     //Select Player
     const onSelectPlayer = (id) => {
+        //Select player
+        console.log('Want to view player with id:' + id)
         setPlayers(
             players.map((player) =>
                 player.id === id ? { ...player, selected: true } : { ...player, selected: false }
             ))
 
         setSelectedPlayerId(id)
-        console.log('Want to view player with id:' + id)
+
+        //Unselect draw
+        setSelectedDrawId(undefined)
+        setDraws(
+            draws.map((draw) =>
+                ({...draw, selected: false})
+            ))
     }
 
     //Delete Player

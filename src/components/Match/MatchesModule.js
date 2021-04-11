@@ -10,10 +10,9 @@ const MatchesModule = ({ matches,
                            setMatchDependencies,
                            selectedDraw,
                            selectedPlayer,
-                           players: players
+                           players
 }) => {
 
-    const [dependenciesAttached, setDependenciesAttached] = useState(false)
     const [matchesWithDeps, setMatchesWithDeps] = useState([])
 
     //Get dependencies
@@ -23,19 +22,18 @@ const MatchesModule = ({ matches,
         let tmpMDs = [];
         let mdsRemaining = matches.length*2;
         const fetchDependency = (depId) => {
-            console.log('About to fetch md with id' ,depId);
             axios({ method: 'get', url: `${api_address + 'MatchDependency/' + depId}` })
 
                 .then(res => {
+                    console.log('Fetched md with id' ,depId)
                     const matchDependency = res.data;
                     tmpMDs = [...tmpMDs, matchDependency]
                     mdsRemaining--;
                     if (mdsRemaining===0){
+                        // eslint-disable-next-line react-hooks/exhaustive-deps
                         matchDependencies = tmpMDs
                         setMatchDependencies(matchDependencies)
-                        attachDependecies()
-                        //setFinishedFetching(true)
-                        //console.log('finishedfetching should be true:' ,finishedFetching);
+                        attachDependencies()
                     }
                 })
                 .catch(function (error) {
@@ -62,7 +60,7 @@ const MatchesModule = ({ matches,
 
 
     //Attach dependencies
-    const attachDependecies = () => {
+    const attachDependencies = () => {
         const getDependency = (id) => {
             return matchDependencies.find(md =>
                 md.id===id
@@ -81,59 +79,57 @@ const MatchesModule = ({ matches,
         })
 
         setMatchesWithDeps(tmpMatches)
-        setDependenciesAttached(true)
     }
 
     //Get matches
     useEffect(() => {
         setMatches([])
-        if (!selectedPlayer && !selectedDraw){
+        if (selectedPlayer===undefined && selectedDraw===undefined){
             return
         }
 
-        if (selectedDraw){
-            axios({ method: 'get', url: `${api_address + 'Match/Draw/' + selectedDraw.id}` })
-
-                .then(res => {
-                    const matches = res.data
-                    setMatches(matches);
-                    console.log('Fetched Matches:',matches)
-                    setDependenciesAttached(false)
-                    //getMatchDependencies(matches.length)
-                })
-
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                });
+        let url
+        if (selectedDraw === undefined){
+            url = `${api_address + 'Match/Player/' + selectedPlayer.id}`
         } else {
-            axios({ method: 'get', url: `${api_address + 'Match/Player/' + selectedPlayer.id}` })
-
-                .then(res => {
-                    setMatches(res.data);
-                    console.log('Fetched Matches:',matches)
-                })
-
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                });
+            url = `${api_address + 'Match/Draw/' + selectedDraw.id}`
         }
+
+        axios({ method: 'get', url: url })
+            .then(res => {
+                const matches = res.data
+                setMatches(matches);
+                console.log('Fetched Matches:',matches)
+            })
+
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            });
     }, [selectedDraw,selectedPlayer])
+
+    const getPlayerDrawName = () => {
+        if (selectedPlayer===undefined && selectedDraw===undefined){
+            return ''
+        } else if (selectedPlayer!==undefined){
+            return selectedPlayer.name
+        } else {
+            return selectedDraw.name
+        }
+    }
 
     return (
         <div className="container">
 
-            <h1>Viewing matches in:</h1>
+            {selectedPlayer===undefined ? <h3>Matches in draw:</h3> : <h3>Matches for player:</h3> }
+            <h1>{getPlayerDrawName()}</h1>
 
             {matches.length > 0 ?
                 <Matches matches={matchesWithDeps}
-                    dependenciesAttached={dependenciesAttached}
                     players={players}
                 />
                 : 'No matches in selected draw/for selected player'
             }
-
         </div>
     )
 }
