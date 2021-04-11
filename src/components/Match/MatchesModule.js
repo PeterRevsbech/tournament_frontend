@@ -10,13 +10,15 @@ const MatchesModule = ({ matches,
                            setMatchDependencies,
                            selectedDraw,
                            selectedPlayer,
-                           playerNames
+                           players: players
 }) => {
 
     const [dependenciesAttached, setDependenciesAttached] = useState(false)
-    const [finishedFetching, setFinishedFetching] = useState(false)
+    const [matchesWithDeps, setMatchesWithDeps] = useState([])
 
+    //Get dependencies
     useEffect(() => {
+        console.log('started fetching dependencies');
         setMatchDependencies([])
         let tmpMDs = [];
         let mdsRemaining = matches.length*2;
@@ -31,7 +33,9 @@ const MatchesModule = ({ matches,
                     if (mdsRemaining===0){
                         matchDependencies = tmpMDs
                         setMatchDependencies(matchDependencies)
-                        setFinishedFetching(true)
+                        attachDependecies()
+                        //setFinishedFetching(true)
+                        //console.log('finishedfetching should be true:' ,finishedFetching);
                     }
                 })
                 .catch(function (error) {
@@ -56,11 +60,8 @@ const MatchesModule = ({ matches,
         })
     }, [matches])
 
-    useEffect(() => {
-        attachDependecies()
-    }, [finishedFetching])
 
-
+    //Attach dependencies
     const attachDependecies = () => {
         const getDependency = (id) => {
             return matchDependencies.find(md =>
@@ -79,10 +80,11 @@ const MatchesModule = ({ matches,
             }
         })
 
-        setMatches(tmpMatches)
+        setMatchesWithDeps(tmpMatches)
         setDependenciesAttached(true)
     }
 
+    //Get matches
     useEffect(() => {
         setMatches([])
         if (!selectedPlayer && !selectedDraw){
@@ -125,9 +127,9 @@ const MatchesModule = ({ matches,
             <h1>Viewing matches in:</h1>
 
             {matches.length > 0 ?
-                <Matches matches={matches}
+                <Matches matches={matchesWithDeps}
                     dependenciesAttached={dependenciesAttached}
-                    playerNames={playerNames}
+                    players={players}
                 />
                 : 'No matches in selected draw/for selected player'
             }

@@ -1,6 +1,6 @@
 import Match from './Match'
 
-const Matches = ({matches, dependenciesAttached, playerNames}) => {
+const Matches = ({matches, dependenciesAttached, players}) => {
 
     return (
         <div>
@@ -8,7 +8,7 @@ const Matches = ({matches, dependenciesAttached, playerNames}) => {
                 <Match key={match.id}
                        match={match}
                        dependenciesAttached={dependenciesAttached}
-                       playerNames={playerNames}
+                       players={players}
                 />
             ))}
         </div>

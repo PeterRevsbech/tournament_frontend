@@ -45,6 +45,7 @@ function App() {
             });
     }, [setTournaments])
 
+    /*
     useEffect(() => {
         let list =[]
 
@@ -56,6 +57,8 @@ function App() {
         setSimplePlayerList(list)
     }, [players])
 
+
+     */
 
     return (
         <div>
@@ -81,13 +84,10 @@ function App() {
                 setMatchDependencies={setMatchDependencies}
                 selectedDraw={draws.find((draw => draw.id===selectedDrawId))}
                 selectedPlayer={players.find((player => player.id===selectedPlayerId))}
-                playerNames={simplePlayerList}
+                players={players}
             />
         </div>
 
-/*
-playerNamesIds={simplifyPlayers()}
- */
       
   );
 }

@@ -1,5 +1,5 @@
 
-const Match = ({ match, playerNames}) => {
+const Match = ({ match, players}) => {
 
     const formatDependency = (player) => {
         let dependency
@@ -25,11 +25,17 @@ const Match = ({ match, playerNames}) => {
     }
 
     const findPlayerName = (playerId) => {
-        console.log(playerNames);
-        if (playerNames===undefined){
+        if (playerId===-1){
+            return 'Bye'
+        }
+        if (players===undefined || players.length===0){
             return playerId
         }
-        let soughtPlayer = playerNames.find((player) => player.id===playerId)
+        let soughtPlayer = players.find((player) => player.id===playerId)
+
+        if (soughtPlayer===undefined){
+            return playerId
+        }
         return soughtPlayer.name
     }
 

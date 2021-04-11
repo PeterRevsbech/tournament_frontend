@@ -123,6 +123,7 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
                     playersRemaining--
                     if (playersRemaining===0){
                         setPlayers(tempPlayers)
+                        console.log('finished fetching players: ',players);
                     }
                 })
 
