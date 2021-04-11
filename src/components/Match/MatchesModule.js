@@ -10,14 +10,15 @@ const MatchesModule = ({ matches,
                            setMatchDependencies,
                            selectedDraw,
                            selectedPlayer,
-                           players
+                           players,
+                           draws
+
 }) => {
 
     const [matchesWithDeps, setMatchesWithDeps] = useState([])
 
     //Get dependencies
     useEffect(() => {
-        console.log('started fetching dependencies');
         setMatchDependencies([])
         let tmpMDs = [];
         let mdsRemaining = matches.length*2;
@@ -28,34 +29,42 @@ const MatchesModule = ({ matches,
                     console.log('Fetched md with id' ,depId)
                     const matchDependency = res.data;
                     tmpMDs = [...tmpMDs, matchDependency]
-                    mdsRemaining--;
-                    if (mdsRemaining===0){
-                        // eslint-disable-next-line react-hooks/exhaustive-deps
-                        matchDependencies = tmpMDs
-                        setMatchDependencies(matchDependencies)
-                        attachDependencies()
-                    }
+                    decreaseMdsRemaining()
+
                 })
                 .catch(function (error) {
                     // handle error
                     console.log(error);
                 });
         }
+
+        const decreaseMdsRemaining = () => {
+            mdsRemaining--;
+            if (mdsRemaining===0){
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                matchDependencies = tmpMDs
+                setMatchDependencies(matchDependencies)
+                attachDependencies()
+            }
+        }
+
         matches.forEach((match) => {
             //First for p1
             if (match.p1DependencyId === null || match.p1DependencyId===0){
-                mdsRemaining--
+                decreaseMdsRemaining()
             } else {
                 fetchDependency(match.p1DependencyId)
             }
 
             //Then for p2
             if (match.p2DependencyId === null || match.p2DependencyId===0){
-                mdsRemaining--
+                decreaseMdsRemaining()
             } else {
                 fetchDependency(match.p2DependencyId)
             }
         })
+
+
     }, [matches])
 
 
@@ -126,9 +135,10 @@ const MatchesModule = ({ matches,
 
             {matches.length > 0 ?
                 <Matches matches={matchesWithDeps}
-                    players={players}
+                         players={players}
+                         draws={draws}
                 />
-                : 'No matches in selected draw/for selected player'
+                : 'No matches to display'
             }
         </div>
     )

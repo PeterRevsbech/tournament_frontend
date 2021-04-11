@@ -1,6 +1,17 @@
 import Match from './Match'
 
-const Matches = ({matches, players}) => {
+const Matches = ({matches, players, draws}) => {
+
+    matches.sort(function(a,b){
+        if (a.drawId>b.drawId) return -1
+        else if (a.drawId<b.drawId) return 1
+        else if (a.round>b.round) return -1
+        else if (a.round<b.round) return 1
+        else return 0
+    }).reverse()
+    //let groupedMatches = matches.groupBy()
+
+
 
     return (
         <div>
@@ -8,6 +19,7 @@ const Matches = ({matches, players}) => {
                 <Match key={match.id}
                        match={match}
                        players={players}
+                       drawName = {draws.find((draw) => draw.id===match.drawId).name}
                 />
             ))}
         </div>

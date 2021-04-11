@@ -55,6 +55,10 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
             return
         }
 
+        if (playersInDraw.length===0){
+            alert('There are no players in the draw')
+        }
+
         //Write to database
         submitToAPI(e)
 

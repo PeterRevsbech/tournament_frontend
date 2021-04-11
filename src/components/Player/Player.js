@@ -14,7 +14,6 @@ const Player = ({ player, onDelete, onView, showViewButton, showSeedingOption, o
         </div>
 
     )
-
 }
 
 export default Player

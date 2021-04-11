@@ -1,5 +1,5 @@
 
-const Match = ({ match, players}) => {
+const Match = ({ match, players, drawName}) => {
 
     const formatDependency = (player) => {
         let dependency
@@ -19,7 +19,7 @@ const Match = ({ match, players}) => {
             text = text + 'loser of'
         }
 
-        text = text + ' match with id: ' + dependency.dependencyId
+        text = text + ' match ' + dependency.dependencyId
 
         return text
     }
@@ -50,7 +50,11 @@ const Match = ({ match, players}) => {
 
     return (
         <div className={'tournament'}>
-            <h6>{formatMatchText()}</h6>
+            <h4>Match id: {match.id}</h4>
+            <h4>{match.p1Id === 0  ? formatDependency('p1') : findPlayerName(match.p1Id)}</h4>
+            <h6>vs</h6>
+            <h4>{match.p2Id === 0  ? formatDependency('p2') : findPlayerName(match.p2Id)}</h4>
+            <h6>Round: {match.round} of {drawName}</h6>
         </div>
     )
 }

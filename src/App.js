@@ -76,15 +76,19 @@ function App() {
                 setSelectedPlayerId={setSelectedPlayerId}
             />}
 
-            <MatchesModule
-                matches={matches}
-                setMatches={setMatches}
-                matchDependencies={matchDependencies}
-                setMatchDependencies={setMatchDependencies}
-                selectedDraw={draws.find((draw => draw.id===selectedDrawId))}
-                selectedPlayer={players.find((player => player.id===selectedPlayerId))}
-                players={players}
-            />
+            {!(selectedDrawId === -1 && selectedPlayerId===-1)
+                && <MatchesModule
+                    matches={matches}
+                    setMatches={setMatches}
+                    matchDependencies={matchDependencies}
+                    setMatchDependencies={setMatchDependencies}
+                    selectedDraw={draws.find((draw => draw.id===selectedDrawId))}
+                    selectedPlayer={players.find((player => player.id===selectedPlayerId))}
+                    players={players}
+                    draws={draws}
+                />
+            }
+
         </div>
 
       
