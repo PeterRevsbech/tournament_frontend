@@ -47,10 +47,24 @@ const Match = ({ match, players, drawName}) => {
         return text
     }
 
+     const status = (statusCode) => {
+        switch (statusCode){
+            case 0:
+                return 'Closed'
+            case 1:
+                return 'Open'
+            case 2:
+                return 'Active'
+            case 3:
+                return 'Finished'
+        }
+     }
+
 
     return (
         <div className={'tournament'}>
             <h4>Match id: {match.id}</h4>
+            <h4>Status: {status(match.statusDTO)}</h4>
             <h4>{match.p1Id === 0  ? formatDependency('p1') : findPlayerName(match.p1Id)}</h4>
             <h6>vs</h6>
             <h4>{match.p2Id === 0  ? formatDependency('p2') : findPlayerName(match.p2Id)}</h4>
