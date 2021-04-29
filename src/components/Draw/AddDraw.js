@@ -26,7 +26,10 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
             "name": name,
             "drawTypeDTO":type,
             "tournamentId": tournament.id,
-            "playerIds":playerIds
+            "sets":0,
+            "games":5,
+            "points":11,
+            "tiebreaks":true
         };
 
         axios({
