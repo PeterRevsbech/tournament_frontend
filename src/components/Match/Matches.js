@@ -22,6 +22,8 @@ const Matches = ({matches, players, draws}) => {
                        drawName = {draws.find((draw) => draw.id===match.drawId).name}
                        drawTypeDTO = {draws.find((draw) => draw.id===match.drawId).drawTypeDTO}
                        usingSets = {draws.find((draw) => draw.id===match.drawId).sets !== 0}
+                       numOfSets={draws.find((draw) => draw.id===match.drawId).sets}
+                       numOfGames={draws.find((draw) => draw.id===match.drawId).games}
                 />
             ))}
         </div>
