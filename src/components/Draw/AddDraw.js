@@ -22,10 +22,17 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
             player=>player.id
         )
 
-        const draw = {
+        //TODO logic for sorting according to seed
+        const playerIdsSeeded = playersInDraw.map(
+            player=>player.id
+        )
+
+        const drawCreationDTO = {
             "name": name,
             "drawTypeDTO":type,
             "tournamentId": tournament.id,
+            "playerIds":playerIds ,
+            "playerIdsSeeded":playerIdsSeeded ,
             "sets":0,
             "games":5,
             "points":11,
@@ -35,7 +42,7 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
         axios({
             method: 'post',
             url: `${api_address}Draw/Generate/`,
-            data: draw
+            data: drawCreationDTO
         })
             .then(res => {
                 onAdd(res.data)

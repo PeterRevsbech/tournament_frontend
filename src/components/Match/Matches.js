@@ -20,6 +20,8 @@ const Matches = ({matches, players, draws}) => {
                        match={match}
                        players={players}
                        drawName = {draws.find((draw) => draw.id===match.drawId).name}
+                       drawTypeDTO = {draws.find((draw) => draw.id===match.drawId).drawTypeDTO}
+                       usingSets = {draws.find((draw) => draw.id===match.drawId).sets !== 0}
                 />
             ))}
         </div>

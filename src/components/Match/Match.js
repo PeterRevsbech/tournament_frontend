@@ -1,5 +1,5 @@
 
-const Match = ({ match, players, drawName}) => {
+const Match = ({ match, players, drawName, drawTypeDTO, usingSets}) => {
 
     const formatDependency = (player) => {
         let dependency
@@ -60,15 +60,59 @@ const Match = ({ match, players, drawName}) => {
         }
      }
 
+     const formatPoints = (p1Points,p2Points) => {
+        //Figure out which gameSets have actually been played
+         var p1Res = '', p2Res = ''
+         var i;
+         for (i = 0; i < p1Points.length; i++) {
+             if (p1Points[i] === 0 && p2Points[i] == 0){
+                 //break;
+             }
+             p1Res += p1Points[i] + '\t'
+             p2Res += p2Points[i] + '\t'
+         }
+         return [p1Res,p2Res]
+
+     }
+
+
+    const formattedPoints =  formatPoints(match.p1Points,match.p2Points)
+    const p1Points = formattedPoints[0]
+    const p2Points = formattedPoints[1]
 
     return (
         <div className={'tournament'}>
             <h4>Match id: {match.id}</h4>
             <h4>Status: {status(match.statusDTO)}</h4>
-            <h4>{match.p1Id === 0  ? formatDependency('p1') : findPlayerName(match.p1Id)}</h4>
-            <h6>vs</h6>
-            <h4>{match.p2Id === 0  ? formatDependency('p2') : findPlayerName(match.p2Id)}</h4>
-            <h6>Round: {match.round} of {drawName}</h6>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th>Player</th>
+                        <th>Points</th>
+                        {usingSets && <th>Sets</th> }
+                        <th>Games</th>
+                        <th>Result</th>
+                    </tr>
+                    <tr>
+                        <td>{match.p1Id === 0  ? formatDependency('p1') : findPlayerName(match.p1Id)}</td>
+                        <td>{p1Points}</td>
+                        {usingSets && <td>{match.p1Sets}</td> }
+                        <td>{match.p1Games}</td>
+                        <td>{match.status===3 ? (match.p1Match === 1 ? 'Winner':'Loser'): ''}</td>
+                    </tr>
+                    <tr>
+                        <td>{match.p2Id === 0  ? formatDependency('p2') : findPlayerName(match.p2Id)}</td>
+                        <td>{p2Points}</td>
+                        {usingSets && <td>{match.p2Sets}</td> }
+                        <td>{match.p2Games}</td>
+                        <td>{match.status===3 ? (match.p2Match === 1 ? 'Winner':'Loser'): ""}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            {drawTypeDTO !== 2 ? <h6>Round {match.round} of {drawName}</h6> : <h6>{drawName}</h6>}
         </div>
     )
 }

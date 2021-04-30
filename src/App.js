@@ -44,21 +44,6 @@ function App() {
             });
     }, [setTournaments])
 
-    /*
-    useEffect(() => {
-        let list =[]
-
-        console.log('players',players);
-        players.forEach((player) => {
-            list.push({name: player.name, identificator: player.id})
-        })
-        console.log('finished formatting simp playerlist',list);
-        setSimplePlayerList(list)
-    }, [players])
-
-
-     */
-
     return (
         <div>
             <TournamentsModule tournaments={tournaments}
