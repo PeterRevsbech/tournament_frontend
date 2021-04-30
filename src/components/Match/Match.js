@@ -2,7 +2,10 @@ import NumberFormat from 'react-number-format';
 import Button from "../Button";
 import axios from "axios";
 import {api_address} from "../../App";
+import {useState} from "react";
 const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, numOfGames}) => {
+
+    const [scoreInput, setScoreInput] = useState('')
 
     const formatDependency = (player) => {
         let dependency
@@ -88,6 +91,20 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
     }
 
     const reportMatchResult = () => {
+        const matchResultDTO = {
+            "matchId": match.id,
+            "score": scoreInput
+        };
+
+        axios({
+            method: 'put',
+            url: `${api_address}Match/Report`,
+            data: matchResultDTO
+        })
+            .then(res => {
+                //onAdd(res.data)
+                //tournament.playerIds.push(res.data.id)
+            })
 
     }
 
@@ -95,6 +112,7 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
     const formattedPoints = formatPoints(match.p1Points, match.p2Points)
     const p1Points = formattedPoints[0]
     const p2Points = formattedPoints[1]
+
 
     return (
         <div className={'tournament'}>
@@ -115,21 +133,28 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
                     <td>{p1Points}</td>
                     {usingSets && <td>{match.p1Sets}</td>}
                     <td>{match.p1Games}</td>
-                    <td>{match.status === 3 ? (match.p1Match === 1 ? 'Winner' : 'Loser') : ''}</td>
+                    <td>{match.statusDTO === 3 ? (match.p1Match === 1 ? 'Winner' : 'Loser') : ''}</td>
                 </tr>
                 <tr>
                     <td>{match.p2Id === 0 ? formatDependency('p2') : findPlayerName(match.p2Id)}</td>
                     <td>{p2Points}</td>
                     {usingSets && <td>{match.p2Sets}</td>}
                     <td>{match.p2Games}</td>
-                    <td>{match.status === 3 ? (match.p2Match === 1 ? 'Winner' : 'Loser') : ""}</td>
+                    <td>{match.statusDTO === 3 ? (match.p2Match === 1 ? 'Winner' : 'Loser') : ""}</td>
                 </tr>
                 </tbody>
 
             </table>
 
             {(match.statusDTO === 1 || match.statusDTO === 2) &&
-            <NumberFormat format={formatPointsInputString()[0]} placeholder={formatPointsInputString()[1]} mask="_"/>
+            <NumberFormat id="scoreInput" format={formatPointsInputString()[0]}
+                          placeholder={formatPointsInputString()[1]}
+                          allowEmptyFormatting
+                          mask="_"
+                          onValueChange={(values) => {
+                              setScoreInput(values.formattedValue)
+                              console.log(scoreInput);}}
+            />
             }
 
             {(match.statusDTO === 1 || match.statusDTO === 2) &&
