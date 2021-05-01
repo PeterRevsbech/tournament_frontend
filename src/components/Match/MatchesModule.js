@@ -12,7 +12,6 @@ const MatchesModule = ({ matches,
                            selectedPlayer,
                            players,
                            draws
-
 }) => {
 
     const [matchesWithDeps, setMatchesWithDeps] = useState([])
@@ -63,8 +62,6 @@ const MatchesModule = ({ matches,
                 fetchDependency(match.p2DependencyId)
             }
         })
-
-
     }, [matches])
 
 
@@ -92,6 +89,10 @@ const MatchesModule = ({ matches,
 
     //Get matches
     useEffect(() => {
+        getMatches()
+    }, [selectedDraw,selectedPlayer])
+
+    const getMatches = () => {
         setMatches([])
         if (selectedPlayer===undefined && selectedDraw===undefined){
             return
@@ -115,7 +116,8 @@ const MatchesModule = ({ matches,
                 // handle error
                 console.log(error);
             });
-    }, [selectedDraw,selectedPlayer])
+    }
+
 
     const getPlayerDrawName = () => {
         if (selectedPlayer===undefined && selectedDraw===undefined){
@@ -137,6 +139,7 @@ const MatchesModule = ({ matches,
                 <Matches matches={matchesWithDeps}
                          players={players}
                          draws={draws}
+                         reloadMatches={getMatches}
                 />
                 : 'No matches to display'
             }

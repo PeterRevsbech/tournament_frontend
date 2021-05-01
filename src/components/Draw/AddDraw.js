@@ -7,6 +7,9 @@ import Button from "../Button";
 const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
     const [name, setName] = useState('')
     const [type, setType] = useState('0')
+    const [games, setGames] = useState(0)
+    const [points, setPoints] = useState(0)
+    const [tieBreaks, setTieBreaks] = useState(false)
     const [playersInDraw, setPlayersInDraw] = useState(Array.from(players))
     const [useSeedings, setUseSeedings] = useState(true)
 
@@ -33,10 +36,10 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
             "tournamentId": tournament.id,
             "playerIds":playerIds ,
             "playerIdsSeeded":playerIdsSeeded ,
-            "sets":0,
-            "games":5,
-            "points":11,
-            "tiebreaks":true
+            "sets": 0,
+            "games": games,
+            "points": points,
+            "tiebreaks": tieBreaks
         };
 
         axios({
@@ -54,6 +57,7 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
     const onSubmit = (e) => {
         e.preventDefault()
 
+
         if (!name) {
             alert('Please add a name for the draw')
             return
@@ -62,6 +66,12 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
             return
         } else if (nameTaken(name)){
             alert('The proposed name is already in use for this tournament')
+            return
+        } else if (games === 0){
+            alert('Select a number of games')
+            return
+        } else if (points === 0){
+            alert('Select a number of points')
             return
         }
 
@@ -119,6 +129,32 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
                         <option value="2" >Round Robin</option>
                         <option value="1" >Monrad</option>
                     </select>
+                </div>
+
+                <div>
+                    <p>Number of games:</p>
+                    <input type="number" id="games" min="1" max="9"
+                           onInput={() => {
+                               setGames(document.getElementById("games").value)
+                           }}
+                    />
+
+
+                    <p>Points per game:</p>
+                    <input type="number" id="points" min="1" max="50"
+                         onInput={() => {
+                             setPoints(document.getElementById("points").value)
+                         }}
+                    />
+
+                    <p>Allow tiebreaks:</p>
+                    <input type="checkbox" id="tiebreaks"
+                           onChange={() => {
+                               setTieBreaks(document.getElementById("tiebreaks").checked)
+                           }}
+                    />
+
+
                 </div>
 
 

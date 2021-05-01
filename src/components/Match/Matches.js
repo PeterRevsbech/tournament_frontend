@@ -1,6 +1,6 @@
 import Match from './Match'
 
-const Matches = ({matches, players, draws}) => {
+const Matches = ({matches, players, draws, reloadMatches}) => {
 
     matches.sort(function(a,b){
         if (a.drawId>b.drawId) return -1
@@ -24,6 +24,7 @@ const Matches = ({matches, players, draws}) => {
                        usingSets = {draws.find((draw) => draw.id===match.drawId).sets !== 0}
                        numOfSets={draws.find((draw) => draw.id===match.drawId).sets}
                        numOfGames={draws.find((draw) => draw.id===match.drawId).games}
+                       reloadMatches={reloadMatches}
                 />
             ))}
         </div>

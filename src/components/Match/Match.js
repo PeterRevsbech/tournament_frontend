@@ -3,7 +3,7 @@ import Button from "../Button";
 import axios from "axios";
 import {api_address} from "../../App";
 import {useState} from "react";
-const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, numOfGames}) => {
+const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, numOfGames, reloadMatches}) => {
 
     const [scoreInput, setScoreInput] = useState('')
 
@@ -55,6 +55,8 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
                 return 'Active'
             case 3:
                 return 'Finished'
+            default:
+                return ""
         }
     }
 
@@ -102,9 +104,13 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
             data: matchResultDTO
         })
             .then(res => {
-                //onAdd(res.data)
-                //tournament.playerIds.push(res.data.id)
+                console.log(res)
+                reloadMatches()
             })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            });
 
     }
 
@@ -132,31 +138,31 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
                     <td>{match.p1Id === 0 ? formatDependency('p1') : findPlayerName(match.p1Id)}</td>
                     <td>{p1Points}</td>
                     {usingSets && <td>{match.p1Sets}</td>}
-                    <td>{match.p1Games}</td>
-                    <td>{match.statusDTO === 3 ? (match.p1Match === 1 ? 'Winner' : 'Loser') : ''}</td>
+                    <td>{match.statusDTO === 3 ? match.p1Games : ""}</td>
+                    <td>{match.statusDTO === 3 ? (match.p1Won ? 'Winner' : 'Loser') : ""}</td>
                 </tr>
                 <tr>
                     <td>{match.p2Id === 0 ? formatDependency('p2') : findPlayerName(match.p2Id)}</td>
                     <td>{p2Points}</td>
                     {usingSets && <td>{match.p2Sets}</td>}
-                    <td>{match.p2Games}</td>
-                    <td>{match.statusDTO === 3 ? (match.p2Match === 1 ? 'Winner' : 'Loser') : ""}</td>
+                    <td>{match.statusDTO === 3 ? match.p2Games : ""}</td>
+                    <td>{match.statusDTO === 3 ? (match.p1Won ? 'Loser' : 'Winner') : ""}</td>
                 </tr>
                 </tbody>
 
             </table>
 
             {(match.statusDTO === 1 || match.statusDTO === 2) &&
-            <NumberFormat id="scoreInput" format={formatPointsInputString()[0]}
+            <NumberFormat format={formatPointsInputString()[0]}
                           placeholder={formatPointsInputString()[1]}
                           allowEmptyFormatting
                           mask="_"
                           onValueChange={(values) => {
-                              setScoreInput(values.formattedValue)
-                              console.log(scoreInput);}}
+                              setScoreInput(values.formattedValue)}}
             />
             }
 
+            {(match.statusDTO === 1 || match.statusDTO === 2) && <br/>}
             {(match.statusDTO === 1 || match.statusDTO === 2) &&
             <Button text='Submit result' onClick={reportMatchResult}/>
             }
