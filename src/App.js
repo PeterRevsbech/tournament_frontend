@@ -48,6 +48,7 @@ function App() {
         <div>
             <TournamentsModule tournaments={tournaments}
                 setTournaments={setTournaments}
+                selectedTournamentId={selectedTournamentId}
                 setSelectedTournamentId={setSelectedTournamentId}
             />
 
@@ -59,6 +60,8 @@ function App() {
                 players={players}
                 setPlayers={setPlayers}
                 setSelectedPlayerId={setSelectedPlayerId}
+                selectedDrawId={selectedDrawId}
+                selectedPlayerId={selectedPlayerId}
             />}
 
             {!(selectedDrawId === -1 && selectedPlayerId===-1)

@@ -8,7 +8,7 @@ const Player = ({ player, onDelete, onView, showViewButton, showSeedingOption, o
                 <FaTimes style={{ color: 'red', cursor: 'pointer' }} onClick={() => onDelete(player.id)} />
             </h3>
             {showViewButton && <Button text='View' onClick={() => onView(player.id)} />}
-            {showSeedingOption && <h5>Seed</h5>}
+            {showSeedingOption && <h5>Seed points</h5>}
             {showSeedingOption && <input type='text' id={player.id} onChange={(e) => onSeedingChange(parseInt(player.id),parseInt(e.target.value))}/>}
         </div>
     )

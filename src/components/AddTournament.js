@@ -22,6 +22,11 @@ const AddTournament = ({ onAdd }) => {
             .then(res => {
                 onAdd(res.data)
             })
+            .catch(function (error) {
+                // handle error
+                alert("Could not submit the tournament.")
+                console.log(error);
+            });
 
     }   
 

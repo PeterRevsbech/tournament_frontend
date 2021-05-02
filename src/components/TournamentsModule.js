@@ -6,7 +6,7 @@ import axios from 'axios'
 import {api_address} from '../App'
 
 
-const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentId }) => {
+const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentId, selectedTournamentId}) => {
     const [showAddTournament, setShowAddTournament] = useState(false)
 
     //Add Tournament
@@ -22,6 +22,9 @@ const TournamentsModule = ({ tournaments, setTournaments, setSelectedTournamentI
             .then(res => {
                 console.log('Deleted the following\n')
                 console.log(res)
+                if (id === selectedTournamentId) {
+                    setSelectedTournamentId(-1)
+                }
                 setTournaments(tournaments.filter((tournament) => tournament.id !== id))
             })
             .catch(function (error) {

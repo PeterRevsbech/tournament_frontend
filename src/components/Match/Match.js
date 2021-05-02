@@ -109,6 +109,7 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
             })
             .catch(function (error) {
                 // handle error
+                alert("Could not submit the match result.")
                 console.log(error);
             });
 

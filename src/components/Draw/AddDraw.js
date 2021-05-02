@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import axios from 'axios'
 import {api_address} from "../../App";
 import Players from "../Player/Players";
@@ -16,7 +16,9 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
     const [useSeedings, setUseSeedings] = useState(true)
 
 
-
+    const seedPoints = (id) => {
+        return playerSeedPoints.find(element => element[0]===id) === undefined ? 0 : playerSeedPoints.find(element => element[0]===id)[1];
+    }
 
     const submitToAPI = (e) => {
 
@@ -27,10 +29,6 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
             player=>player.id
         )
 
-
-        const seedPoints = (id) => {
-            return playerSeedPoints.find(element => element[0]===id)[1];
-        }
         const playerIdsSeeded = playerIds.sort((a,b) =>  seedPoints(b)-seedPoints(a))
 
 
@@ -55,7 +53,20 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
                 onAdd(res.data)
                 console.log(res.data);
                 tournament.drawIds.push(res.data.id)
+
+                //Clear fields
+                setName('')
+                setGames(0)
+                setPoints(0)
+                setTieBreaks(false)
+
+
             })
+            .catch(function (error) {
+                // handle error
+                alert("Could not submit the draw.")
+                console.log(error);
+            });
     }
 
     const onSubmit = (e) => {
@@ -85,9 +96,6 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
 
         //Write to database
         submitToAPI(e)
-
-        //Clear fields
-        setName('')
     }
 
     //Delete Player
@@ -97,7 +105,13 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
 
     const reloadPlayersInDraw = () => {
         setPlayersInDraw(Array.from(players))
+        setPlayerSeedPoints(Array.from(players).map(player=>[player.id,seedPoints(player.id)]))
     }
+
+    //Get draws
+    useEffect(() => {
+       reloadPlayersInDraw()
+    }, [players])
 
     const setTypeAndSeeding = (type) => {
         if (type==='0' || type ==='1'){
@@ -141,6 +155,7 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
                 <div>
                     <p>Number of games:</p>
                     <input type="number" id="games" min="1" max="9"
+                           value={games}
                            onInput={() => {
                                setGames(document.getElementById("games").value)
                            }}
@@ -149,6 +164,7 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
 
                     <p>Points per game:</p>
                     <input type="number" id="points" min="1" max="50"
+                           value={points}
                          onInput={() => {
                              setPoints(document.getElementById("points").value)
                          }}
@@ -156,6 +172,7 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
 
                     <p>Allow tiebreaks:</p>
                     <input type="checkbox" id="tiebreaks"
+                           value={tieBreaks}
                            onChange={() => {
                                setTieBreaks(document.getElementById("tiebreaks").checked)
                            }}

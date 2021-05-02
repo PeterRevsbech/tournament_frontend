@@ -22,6 +22,11 @@ const AddPlayer = ({ onAdd , nameTaken, tournament }) => {
                 onAdd(res.data)
                 tournament.playerIds.push(res.data.id)
             })
+            .catch(function (error) {
+                // handle error
+                alert("Could not submit the player.")
+                console.log(error);
+            });
 
 
     }

@@ -9,7 +9,7 @@ import AddPlayer from "./Player/AddPlayer";
 
 
 
-const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, players, setPlayers ,setSelectedPlayerId }) => {
+const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, players, setPlayers ,setSelectedPlayerId, selectedDrawId, selectedPlayerId }) => {
 
 
 
@@ -53,6 +53,9 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
             .then(res => {
                 console.log('Deleted the following\n')
                 console.log(res)
+                if (selectedDrawId === id){
+                    setSelectedDrawId(-1)
+                }
                 setDraws(draws.filter((draw) => draw.id !== id))
             })
             .catch(function (error) {
@@ -88,12 +91,15 @@ const TournamentDetails = ({ tournament, draws, setDraws, setSelectedDrawId, pla
             .then(res => {
                 console.log('Deleted the following\n')
                 console.log(res)
+                if (selectedPlayerId === id){
+                    setSelectedPlayerId(-1)
+                }
                 setPlayers(players.filter((player) => player.id !== id))
             })
             .catch(function (error) {
                 // handle error
                 console.log(error);
-                alert('Could not delete');
+                alert('Could not delete the player. Make sure, that player has no matches before you delete it. ');
             });
     }
 
