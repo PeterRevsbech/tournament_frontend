@@ -11,6 +11,8 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
     const [points, setPoints] = useState(0)
     const [tieBreaks, setTieBreaks] = useState(false)
     const [playersInDraw, setPlayersInDraw] = useState(Array.from(players))
+    const [playerSeedPoints, setPlayerSeedPoints] = useState(Array.from(players).map(player=>[player.id,0]))
+
     const [useSeedings, setUseSeedings] = useState(true)
 
 
@@ -25,10 +27,12 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
             player=>player.id
         )
 
-        //TODO logic for sorting according to seed
-        const playerIdsSeeded = playersInDraw.map(
-            player=>player.id
-        )
+
+        const seedPoints = (id) => {
+            return playerSeedPoints.find(element => element[0]===id)[1];
+        }
+        const playerIdsSeeded = playerIds.sort((a,b) =>  seedPoints(b)-seedPoints(a))
+
 
         const drawCreationDTO = {
             "name": name,
@@ -104,8 +108,11 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
         setType(type)
     }
 
-    const onSeedingChange = (playerId, seed) => {
-        console.log(playerId, ' changed seeding to ',seed)
+    const onSeedingChange = (playerId, seedPoints) => {
+        console.log(playerId, ' changed seeding to ',seedPoints)
+        setPlayerSeedPoints(playerSeedPoints.map(element =>
+            playerId === element[0] ? [playerId,seedPoints]:element
+        ))
     }
 
     return (

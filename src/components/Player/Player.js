@@ -9,10 +9,8 @@ const Player = ({ player, onDelete, onView, showViewButton, showSeedingOption, o
             </h3>
             {showViewButton && <Button text='View' onClick={() => onView(player.id)} />}
             {showSeedingOption && <h5>Seed</h5>}
-            {showSeedingOption && <input type='text' id={player.id} />}
-
+            {showSeedingOption && <input type='text' id={player.id} onChange={(e) => onSeedingChange(parseInt(player.id),parseInt(e.target.value))}/>}
         </div>
-
     )
 }
 
