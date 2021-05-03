@@ -1,6 +1,6 @@
 import Player from "./Player";
 
-const Players = ({ players, onDelete, onView, title, showViewButton, isUsingSeedings, onSeedingChange }) => {
+const Players = ({ players, onDelete, onView, title, showViewButton, isUsingSeedings, onSeedingChange,hideSelection }) => {
 
 
     return (
@@ -8,6 +8,7 @@ const Players = ({ players, onDelete, onView, title, showViewButton, isUsingSeed
             <h2>{title}</h2>
             {players.map((player) => (
                 <Player
+                    hideSelection={hideSelection}
                     key={player.id}
                     player={player}
                     onView={onView}
@@ -23,6 +24,7 @@ const Players = ({ players, onDelete, onView, title, showViewButton, isUsingSeed
 
 
 Players.defaultProps = {
+    hideSelection: false,
     title: 'Players',
     showViewButton: true
 }

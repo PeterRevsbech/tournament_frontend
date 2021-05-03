@@ -1,9 +1,9 @@
 import { FaTimes } from 'react-icons/fa'
 import Button from '../Button'
 
-const Player = ({ player, onDelete, onView, showViewButton, showSeedingOption, onSeedingChange}) => {
+const Player = ({ player, onDelete, onView, showViewButton, showSeedingOption, onSeedingChange,hideSelection}) => {
     return (
-        <div className={`tournament ${player.selected ? 'selected' : ''}`}>
+        <div className={`tournament ${player.selected &&(!hideSelection)? 'selected' : ''}`}>
             <h3>{player.name}
                 <FaTimes style={{ color: 'red', cursor: 'pointer' }} onClick={() => onDelete(player.id)} />
             </h3>

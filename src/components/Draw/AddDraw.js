@@ -7,8 +7,8 @@ import Button from "../Button";
 const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
     const [name, setName] = useState('')
     const [type, setType] = useState('0')
-    const [games, setGames] = useState(0)
-    const [points, setPoints] = useState(0)
+    const [games, setGames] = useState(5)
+    const [points, setPoints] = useState(11)
     const [tieBreaks, setTieBreaks] = useState(false)
     const [playersInDraw, setPlayersInDraw] = useState(Array.from(players))
     const [playerSeedPoints, setPlayerSeedPoints] = useState(Array.from(players).map(player=>[player.id,0]))
@@ -185,6 +185,7 @@ const AddDraw = ({ onAdd, tournament, nameTaken, players  }) => {
 
                 <Players
                     players={playersInDraw}
+                    hideSelection={true}
                     title={'Players in your draw'}
                     onDelete={onDeletePlayer}
                     showViewButton={false}
