@@ -3,7 +3,7 @@ import Button from "../Button";
 import axios from "axios";
 import {api_address} from "../../App";
 import {useState} from "react";
-const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, numOfGames, reloadMatches}) => {
+const Match = ({ match, players, drawName, drawTypeDTO, numOfGames, reloadMatches}) => {
 
     const [scoreInput, setScoreInput] = useState('')
 
@@ -78,13 +78,12 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
     const formatPointsInputString = () => {
         const p1Initials = String(findPlayerName(match.p1Id)).substring(0, 2);
         const p2Initials = String(findPlayerName(match.p2Id)).substring(0, 2);
-        const numOfGameSets = numOfSets === 0 ? numOfGames : numOfGames * numOfSets;
         var format = '';
         var mask = '';
-        for (let i = 0; i < numOfGameSets; i++) {
+        for (let i = 0; i < numOfGames; i++) {
             format += '##/##'
             mask += p1Initials + '/' + p2Initials
-            if (i !== numOfGameSets - 1) {
+            if (i !== numOfGames - 1) {
                 format += ' '
                 mask += ' '
             }
@@ -131,21 +130,18 @@ const Match = ({ match, players, drawName, drawTypeDTO, usingSets, numOfSets, nu
                 <tr>
                     <th>Player</th>
                     <th>Points</th>
-                    {usingSets && <th>Sets</th>}
                     <th>Games</th>
                     <th>Result</th>
                 </tr>
                 <tr>
                     <td>{match.p1Id === 0 ? formatDependency('p1') : findPlayerName(match.p1Id)}</td>
                     <td>{p1Points}</td>
-                    {usingSets && <td>{match.p1Sets}</td>}
                     <td>{match.statusDTO === 3 ? match.p1Games : ""}</td>
                     <td>{match.statusDTO === 3 ? (match.p1Won ? 'Winner' : 'Loser') : ""}</td>
                 </tr>
                 <tr>
                     <td>{match.p2Id === 0 ? formatDependency('p2') : findPlayerName(match.p2Id)}</td>
                     <td>{p2Points}</td>
-                    {usingSets && <td>{match.p2Sets}</td>}
                     <td>{match.statusDTO === 3 ? match.p2Games : ""}</td>
                     <td>{match.statusDTO === 3 ? (match.p1Won ? 'Loser' : 'Winner') : ""}</td>
                 </tr>
